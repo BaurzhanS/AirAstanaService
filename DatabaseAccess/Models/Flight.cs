@@ -12,5 +12,7 @@ namespace DatabaseAccess.Models
 
         public DateTime? DepartureTime { get; set; }
         public DateTime? DestinationTime { get; set; }
+
+        public ICollection<FlightsInFlightStatuses> FlightsInFlightStatuses { get; set; }
     }
 }

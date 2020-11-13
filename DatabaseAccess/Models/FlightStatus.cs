@@ -8,5 +8,6 @@ namespace DatabaseAccess.Models
     {
         public int Id { get; set; }
         public string StatusName { get; set; }
+        public ICollection<FlightsInFlightStatuses> FlightsInFlightStatuses { get; set; }
     }
 }
