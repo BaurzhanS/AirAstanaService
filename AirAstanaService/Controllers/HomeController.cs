@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using AirAstanaService.Models;
 using DatabaseAccess;
 using DatabaseAccess.Models;
+using DatabaseAccess.Contracts;
 
 namespace AirAstanaService.Controllers
 {
@@ -15,15 +16,15 @@ namespace AirAstanaService.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        private ApplicationContext _context;
-        public HomeController(ApplicationContext context)
+        private IRepositoryWrapper _repoWrapper;
+        public HomeController(IRepositoryWrapper repoWrapper)
         {
-            _context = context;
+            _repoWrapper = repoWrapper;
         }
 
         public IActionResult Index()
         {
-            User user = _context.Users.FirstOrDefault();
+            var users = _repoWrapper.User.List();
             return View();
         }
 
