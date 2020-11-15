@@ -24,7 +24,7 @@ namespace AirAstanaService.Controllers
 
         public IActionResult Index()
         {
-            var users = _repoWrapper.User.List();
+            //var users = _repoWrapper.User.List();
             return View();
         }
 
