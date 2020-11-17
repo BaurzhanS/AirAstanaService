@@ -7,7 +7,12 @@ namespace DatabaseAccess.Access
 {
     public class RepositoryWrapper : IRepositoryWrapper
     {
-        ApplicationContext _applicationContext;
+        ApplicationContext _repoContext;
+
+        public RepositoryWrapper(ApplicationContext applicationContext)
+        {
+            _repoContext = applicationContext;
+        }
 
         IFlightRepository _flight;
         IFlightStatusRepository _flightStatus;
@@ -20,7 +25,7 @@ namespace DatabaseAccess.Access
             {
                 if (_flight == null)
                 {
-                    _flight = new FlightRepository(_applicationContext);
+                    _flight = new FlightRepository(_repoContext);
                 }
                 return _flight;
             }
@@ -31,7 +36,7 @@ namespace DatabaseAccess.Access
             {
                 if (_flightStatus == null)
                 {
-                    _flightStatus = new FlightStatusRepository(_applicationContext);
+                    _flightStatus = new FlightStatusRepository(_repoContext);
                 }
                 return _flightStatus;
             }
@@ -42,7 +47,7 @@ namespace DatabaseAccess.Access
             {
                 if (_role == null)
                 {
-                    _role = new RoleRepository(_applicationContext);
+                    _role = new RoleRepository(_repoContext);
                 }
                 return _role;
             }
@@ -53,10 +58,15 @@ namespace DatabaseAccess.Access
             {
                 if (_user == null)
                 {
-                    _user = new UserRepository(_applicationContext);
+                    _user = new UserRepository(_repoContext);
                 }
                 return _user;
             }
+        }
+
+        public void Save()
+        {
+            _repoContext.SaveChanges();
         }
     }
 }

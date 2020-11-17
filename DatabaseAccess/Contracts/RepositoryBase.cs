@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace DatabaseAccess.Contracts
@@ -12,39 +15,30 @@ namespace DatabaseAccess.Contracts
         {
             this.ApplicationContext = ApplicationContext;
         }
-        public int Count()
+       
+        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public T Find(object query)
-        {
-            throw new NotImplementedException();
-        }
-
-        public T Get(int id)
-        {
-            throw new NotImplementedException();
+            return this.ApplicationContext.Set<T>().Where(expression);
         }
 
         public void Insert(T entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public List<T> List()
-        {
-            throw new NotImplementedException();
+            this.ApplicationContext.Set<T>().Add(entity);
         }
 
         public void Update(T entity)
         {
-            throw new NotImplementedException();
+            this.ApplicationContext.Set<T>().Update(entity);
+        }
+
+        public void Delete(T entity)
+        {
+            this.ApplicationContext.Set<T>().Remove(entity);
+        }
+
+        public IQueryable<T> GetAll()
+        {
+            return this.ApplicationContext.Set<T>();
         }
     }
 }
