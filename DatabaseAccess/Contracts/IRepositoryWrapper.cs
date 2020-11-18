@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DatabaseAccess.Contracts
 {
@@ -10,6 +11,6 @@ namespace DatabaseAccess.Contracts
         IFlightStatusRepository FlightStatus { get; }
         IRoleRepository Role { get; }
         IUserRepository User { get; }
-        void Save();
+        Task Save();
     }
 }

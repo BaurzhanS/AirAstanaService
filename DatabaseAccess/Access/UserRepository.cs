@@ -11,6 +11,7 @@ namespace DatabaseAccess.Access
         public UserRepository(ApplicationContext ApplicationContext)
             : base(ApplicationContext)
         {
+
         }
     }
 }
