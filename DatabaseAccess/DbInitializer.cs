@@ -39,34 +39,6 @@ namespace DatabaseAccess
 
                 context.SaveChanges();
             }
-                
-
-            if (!context.Flights.Any())
-            {
-                List<Flight> flights = new List<Flight>
-                {
-                    new Flight
-                    {
-                        Departure = "Moskow",
-                        DepartureTime = new DateTime(2020,10,20),
-                        Destination = "Almaty",
-                        DestinationTime = new DateTime(2020,10,21)
-                    },
-                    new Flight
-                    {
-                        Departure = "New-York",
-                        DepartureTime = new DateTime(2020,10,23),
-                        Destination = "Taraz",
-                        DestinationTime = new DateTime(2020,10,25)
-                    }
-                };
-
-                foreach (Flight f in flights)
-                {
-                    context.Flights.Add(f);
-                }
-                context.SaveChanges();
-            }
 
             if (!context.FlightStatuses.Any())
             {
@@ -105,35 +77,33 @@ namespace DatabaseAccess
                 context.SaveChanges();
             }
 
-            if (!context.FlightsInFlightStatuses.Any())
+            if (!context.Flights.Any())
             {
-                List<FlightsInFlightStatuses> flightsInFlightStatuses = new List<FlightsInFlightStatuses>
+                List<Flight> flights = new List<Flight>
                 {
-                    new FlightsInFlightStatuses
+                    new Flight
                     {
-                        FlightId = 1,
-                        FlightStatusId = 1
+                        Departure = "Moskow",
+                        DepartureTime = new DateTime(2020,10,20,10,15,00),
+                        Destination = "Almaty",
+                        DestinationTime = new DateTime(2020,10,21,15,15,00),
+                        FlightStatusId = 1,
+                        Note = "Опаздывает на 10 минут"
                     },
-                     new FlightsInFlightStatuses
+                    new Flight
                     {
-                        FlightId = 2,
-                        FlightStatusId = 2
-                    },
-                      new FlightsInFlightStatuses
-                    {
-                        FlightId = 1,
-                        FlightStatusId = 3
-                    },
-                       new FlightsInFlightStatuses
-                    {
-                        FlightId = 2,
-                        FlightStatusId = 1
+                        Departure = "New-York",
+                        DepartureTime = new DateTime(2020,10,23,12,00,00),
+                        Destination = "Taraz",
+                        DestinationTime = new DateTime(2020,10,25,14,00,00),
+                        FlightStatusId = 2,
+                        Note = "Во время"
                     }
                 };
 
-                foreach (var f in flightsInFlightStatuses)
+                foreach (Flight f in flights)
                 {
-                    context.FlightsInFlightStatuses.Add(f);
+                    context.Flights.Add(f);
                 }
                 context.SaveChanges();
             }

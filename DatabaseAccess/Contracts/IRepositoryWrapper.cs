@@ -11,6 +11,6 @@ namespace DatabaseAccess.Contracts
         IFlightStatusRepository FlightStatus { get; }
         IRoleRepository Role { get; }
         IUserRepository User { get; }
-        Task Save();
+        void Save();
     }
 }

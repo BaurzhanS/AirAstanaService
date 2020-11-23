@@ -12,7 +12,7 @@ namespace DatabaseAccess
         public DbSet<Role> Roles { get; set; }
         public DbSet<Flight> Flights { get; set; }
         public DbSet<FlightStatus> FlightStatuses { get; set; }
-        public DbSet<FlightsInFlightStatuses> FlightsInFlightStatuses { get; set; }
+ 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {

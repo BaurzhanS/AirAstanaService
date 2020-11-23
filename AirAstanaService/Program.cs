@@ -28,16 +28,16 @@ namespace AirAstanaService
             {
                 var services = scope.ServiceProvider;
 
-                try
-                {
+                //try
+                //{
                     var context = services.GetRequiredService<ApplicationContext>();
                     DbInitializer.Initialize(context);
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred creating the DB.");
-                }
+                //}
+                //catch (Exception ex)
+                //{
+                //    var logger = services.GetRequiredService<ILogger<Program>>();
+                //    logger.LogError(ex, "An error occurred creating the DB.");
+                //}
             }
         }
 

@@ -65,9 +65,9 @@ namespace DatabaseAccess.Access
             }
         }
 
-        public async Task Save()
+        public void Save()
         {
-            await _repoContext.SaveChangesAsync();
+            _repoContext.SaveChanges();
         }
     }
 }

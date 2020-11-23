@@ -8,6 +8,7 @@ using DatabaseAccess.Contracts;
 using DatabaseAccess.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,22 +30,22 @@ namespace AirAstanaService.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterModel model)
+        public IActionResult Register(RegisterModel model)
         {
             if (ModelState.IsValid)
             {
-                User user = await _repoWrapper.User.FindByCondition(u => u.Email == model.Email).FirstOrDefaultAsync();
+                User user = _repoWrapper.User.FindByCondition(u => u.Email == model.Email).FirstOrDefault();
                 if (user == null)
                 {
                     user = new User { Email = model.Email, Password = model.Password };
-                    Role userRole = await _repoWrapper.Role.FindByCondition(r => r.Name == "user").FirstOrDefaultAsync();
+                    Role userRole = _repoWrapper.Role.FindByCondition(r => r.Name == "user").FirstOrDefault();
                     if (userRole != null)
                         user.Role = userRole;
 
                     _repoWrapper.User.Insert(user);
-                    await _repoWrapper.Save();
+                    _repoWrapper.Save();
 
-                    await Authenticate(user);
+                    Authenticate(user);
 
                     return RedirectToAction("Index", "Flight");
                 }
@@ -68,15 +69,32 @@ namespace AirAstanaService.Controllers
                 
                 if (user != null)
                 {
-                    await Authenticate(user);
+                    Authenticate(user);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Flight");
                 }
                 ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
             return View(model);
         }
-        private async Task Authenticate(User user)
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Flight");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin, user")]
+        public IActionResult UserAccount()
+        {
+            string userName = HttpContext.User.Identity.Name;
+            return View((object)userName);
+        }
+
+        private void Authenticate(User user)
         {
             var claims = new List<Claim>
             {
@@ -87,7 +105,7 @@ namespace AirAstanaService.Controllers
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
                 ClaimsIdentity.DefaultRoleClaimType);
      
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
     }
 }
