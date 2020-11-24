@@ -100,12 +100,11 @@ namespace AirAstanaService.Controllers
             return RedirectToAction("Index", "Flight");
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpGet]
         [Authorize(Roles = "admin")]
-        public IActionResult Delete(int Id)
+        public IActionResult Delete(int? id)
         {
-            var flight = _repoWrapper.Flight.FindByCondition(p => p.Id == Id).FirstOrDefault();
+            var flight = _repoWrapper.Flight.FindByCondition(p => p.Id == id).FirstOrDefault();
 
             if (flight != null)
             {
